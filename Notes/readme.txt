@@ -5,7 +5,7 @@ I have thoroughly divided the project into 5 main modules, each of you can take 
 
 Person 1 will handle stock.h / stock.cpp files
 Person 2 will handle simulation.h / simulation.cpp
-Person 3 will handle analyzer.h / analyzer.cpp
+Manav will handle analyzer.h / analyzer.cpp
 Person 4 will handle portfolio.h / portfolio.cpp
 Person 5 will handle recommendation.h / recommendation.cpp
 
@@ -23,7 +23,7 @@ Person 2:
     Responsibility: Handle heavy parallel processing loops
     Key Tasks: Take a reference to Person 1's stock ( Stock& ), pre-allocate vectors using reserve(), and run the macro for loop to scale the simulations up to 10,000 runs, storing results in matrix formats(allPaths and finalPrices)
 
-Person 3:
+Manav:
     Responsibility: Process raw numbers into math metrics
     Key Tasks: Read Person 2's completed Simulation matrices and write the math functions for Expected Return, Volatility (Standard Deviation), Maximum Drawdown, and Loss Probability, bundling them into the RiskMetrics Struct.
 
