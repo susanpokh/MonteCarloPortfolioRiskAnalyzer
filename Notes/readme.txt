@@ -14,7 +14,7 @@ We all will design the header files (.h) first and then everyone will go into th
 On our Upcoming Meeting with Rajani Ma'am we will show the flowchart for the project and each of us will explain our chosen module
 If feasible we will show the design of the header files (.h) of our module, and explain it to her
 
-Aaditya or Aakankshya:
+Aaditya:
     Responsibility: Build the raw asset data model.
     Key Tasks: Write the constructor, getters, and the simulate() function using random-walk or geometric Brownian motion logic. Write generatePricePath() to return a vector of daily values.
     Note: Everyone else's code depends on Person 1's Stock object working properly
@@ -31,7 +31,7 @@ Susan:
     Responsibility: Manage Multi-asset blending.
     Key Tasks: Create the StockEntry composition array, handle user-allocated weights, simulate all individual stocks in paralle, and execute the linear combination math to find the combined portfolio equity curve.
 
-Aaditya or Aakankshya:
+Aakankshya:
     Responsibility: Write the rule-based decision algorithm.
     Key Tasks: Write the logic that takes a RiskMetrics struct and gives a final recommendation vector.
 
