@@ -1,8 +1,8 @@
 #ifndef ANALYZER_H
 #define ANALYZER_H
 
-#include <vector>
 #include "simulation.h"
+#include <vector>
 
 /* 
 =================================================================
@@ -20,12 +20,12 @@ struct RiskMetrics {
 
 class Analyzer {
 private:
-    const Simulation& simulation;  // reference to Phuyal's completed simulation
+    const simulation& simulationRef;  // reference to Phuyal's completed simulation
 
 public:
     // Constructor: binds to an already-run Simulation.
     // Analyzer does not own or mutate simulation data, only reads it.
-    explicit Analyzer(const Simulation& simulation);
+    explicit Analyzer(const simulation& simulationRef);
 
     // Each function reads from simulation.getAllPaths() / getFinalPrices()
 
@@ -47,3 +47,5 @@ public:
     // Runs all four calculations above and packages them together.
     RiskMetrics getRiskMetrics() const;
 };
+
+#endif
