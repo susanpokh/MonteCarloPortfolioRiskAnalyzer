@@ -126,3 +126,46 @@ void Portfolio::simulatePortfolio() {
     simulated = true;
     
 }
+
+// ------------------------------------------------------------------
+// Simplified printHoldings() — Raw text output
+// ------------------------------------------------------------------
+void Portfolio::printHoldings() const
+{
+    std::cout << "\n--- CURRENT PORTFOLIO RAW HOLDINGS ---\n";
+    for (const auto& e : entries) {
+        std::cout << "Asset: " << e.stock.getName() 
+                  << " | Price: " << e.stock.getInitialPrice() 
+                  << " | Volatility: " << e.stock.getVolatility() 
+                  << " | Weight: " << e.weight << "\n";
+    }
+    std::cout << "--------------------------------------\n";
+}
+
+// ------------------------------------------------------------------
+// Simplified printReport() — Raw metrics dump
+// ------------------------------------------------------------------
+void Portfolio::printReport() const
+{
+    if (!simulated) {
+        std::cout << "Error: Run simulatePortfolio first.\n";
+        return;
+    }
+
+    std::cout << "\n--- SIMULATION RAW RISK METRICS RESULTS ---\n";
+    std::cout << "Portfolio Name: " << name << "\n";
+    std::cout << "Expected Return: " << metrics.expectedReturn << "\n";
+    std::cout << "Volatility: " << metrics.volatility << "\n";
+    std::cout << "Loss Probability: " << metrics.lossProbability << "\n";
+    std::cout << "Worst Case Return: " << metrics.worstCase << "\n";
+    std::cout << "Best Case Return: " << metrics.bestCase << "\n";
+    std::cout << "Max Drawdown Proxy: " << metrics.maxDrawdown << "\n";
+    std::cout << "Normalized Avg Final Value: " << metrics.avgFinalPrice << "\n";
+    std::cout << "-------------------------------------------\n";
+}
+
+// Simple Accessor Getters to keep compiler happy
+const std::vector<double>& Portfolio::getPortfolioReturns() const { return portfolioReturns; }
+RiskMetrics Portfolio::getMetrics() const { return metrics; }
+std::string Portfolio::getName() const { return name; }
+int Portfolio::getStockCount() const { return entries.size(); }
