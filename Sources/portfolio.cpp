@@ -61,5 +61,68 @@ void Portfolio::simulatePortfolio() {
 
     validateWeights();
 
+    portfolioReturns.clear();
+    portfolioReturns.reserve(numSimulations);
+
+    std::cout << "SImulating Portfolio \"" << name << "\" (" << entries.size() << " stocks, " << numSimulations << " runs)";
+    std::cout.flush();
+
+    for (int run = 0; run < numSimulations; run++ ) {
+
+        if ( run % 100 == 0 ) { std::cout << "."; std::cout.flush();}
+
+        std::vector<double> runReturns;
+        runReturns.reserve(entries.size());
+
+        for (auto& entry: entries) {
+            std::vector<double> path = entry.stock.generatePricePath(numDays);
+            double initP = entry.stock.getInitialPrice();
+            double finalP = path.back();
+            double ret = (finalP - initP) / initP;
+            runReturns.push_back(ret);
+        }
+
+        double portfolioRet = blendReturns(runReturns);
+        portfolioReturns.push_back(portfolioRet);
+    }
+
+    std::cout << "Finished!\n";
+
+
+    // Expected Return
+    double sumR = std::accumulate(portfolioReturns.begin(), portfolioReturns.end(), 0);
+    metrics.expectedReturn = sumR / portfolioReturns.size();
+
+    // Volatility
+    double sumSq = 0;
+    for (double r: portfolioReturns) {
+        sumSq += ( r - metrics.expectedReturn) * ( r - metrics.expectedReturn);
+    }
+    metrics.volatility = std::sqrt(sumSq / portfolioReturns.size());
+
+    //Loss Probability
+    int lossCount = 0;
+    for (double r : portfolioReturns) {
+        if ( r < 0 ) lossCount++;
+    }
+    metrics.lossProbability = static_cast<double>(lossCount) / portfolioReturns.size();
+
+    // Worst / best case
+    metrics.worstCase = *std::min_element(portfolioReturns.begin(), portfolioReturns.end());
+    metrics.bestCase = *std::max_element(portfolioReturns.begin(), portfolioReturns.end());
+
+    // Maximum Drawdown
+    double peak = 0, worstDD = 0;
+    double cumulative = 0;
+    for (double r : portfolioReturns) {
+        cumulative += r / portfolioReturns.size(); // mean
+        if (cumulative > peak) peak = cumulative;
+        double dd = (peak > 0) ? (cumulative - peak) / peak : 0;
+        if ( dd < worstDD ) worstDD = dd;
+    }
+    metrics.maxDrawdown = metrics.worstCase;
+    metrics.avgFinalPrice = 1 + metrics.expectedReturn;
+    
+    simulated = true;
     
 }
