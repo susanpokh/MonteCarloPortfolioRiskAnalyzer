@@ -152,7 +152,7 @@ void Portfolio::printReport() const
         return;
     }
 
-    std::cout << "\n--- SIMULATION RAW RISK METRICS RESULTS ---\n";
+    std::cout << "\n--- SIMULATION RISK METRICS RESULTS ---\n";
     std::cout << "Portfolio Name: " << name << "\n";
     std::cout << "Expected Return: " << metrics.expectedReturn << "\n";
     std::cout << "Volatility: " << metrics.volatility << "\n";
