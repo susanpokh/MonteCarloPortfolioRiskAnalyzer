@@ -7,31 +7,20 @@
 
 #include <iostream>
 #include <iomanip>
-#include <algorithm>   // std::min_element, std::max_element
-#include <numeric>     // std::accumulate
+#include <algorithm> // std::min_element, std::max_element
+#include <numeric>   // std::accumulate
 
-// ------------------------------------------------------------------
-// Constructor
-// ------------------------------------------------------------------
-// stock            — the Stock object to simulate (passed by reference)
-// numSimulations   — how many independent runs to perform
-// numDays          — how many trading days each run covers
-// ------------------------------------------------------------------
-Simulation::Simulation(Stock& stock, int numSimulations, int numDays)
+Simulation::Simulation(Stock &stock, int numSimulations, int numDays)
     : stock(stock),
       numSimulations(numSimulations),
       numDays(numDays)
 {
-    // Pre-allocate so push_back never has to reallocate mid-run
+
     finalPrices.reserve(numSimulations);
     allPaths.reserve(numSimulations);
 }
 
-// ------------------------------------------------------------------
-// runMonteCarlo()  — THE CORE ENGINE
-// ------------------------------------------------------------------
-//
-// What happens here, in plain English:
+// What happens here
 //
 //   Repeat numSimulations times:
 //     1. Tell the stock to generate a fresh 30-day price path
@@ -58,12 +47,13 @@ void Simulation::runMonteCarlo()
 
     std::cout << "Running " << numSimulations
               << " simulations (" << numDays << " days each)";
-    std::cout.flush();   // print the line without a newline yet
+    std::cout.flush(); // print the line without a newline yet
 
     for (int i = 0; i < numSimulations; i++)
     {
         // ── Progress dots every 100 runs ──────────────────────
-        if (i % 100 == 0) {
+        if (i % 100 == 0)
+        {
             std::cout << ".";
             std::cout.flush();
         }
@@ -84,12 +74,10 @@ void Simulation::runMonteCarlo()
     std::cout << " Done!\n";
 }
 
-// ------------------------------------------------------------------
-// printSummary() — quick overview of simulation results
-// ------------------------------------------------------------------
 void Simulation::printSummary() const
 {
-    if (finalPrices.empty()) {
+    if (finalPrices.empty())
+    {
         std::cout << "[Simulation] No results yet. Call runMonteCarlo() first.\n";
         return;
     }
@@ -104,18 +92,19 @@ void Simulation::printSummary() const
 
     // 2. Worst and best outcome
     double worstPrice = *std::min_element(finalPrices.begin(), finalPrices.end());
-    double bestPrice  = *std::max_element(finalPrices.begin(), finalPrices.end());
+    double bestPrice = *std::max_element(finalPrices.begin(), finalPrices.end());
 
     // 3. Convert prices to returns (%)
-    double avgReturn   = (avgFinal   - initPrice) / initPrice * 100.0;
+    double avgReturn = (avgFinal - initPrice) / initPrice * 100.0;
     double worstReturn = (worstPrice - initPrice) / initPrice * 100.0;
-    double bestReturn  = (bestPrice  - initPrice) / initPrice * 100.0;
+    double bestReturn = (bestPrice - initPrice) / initPrice * 100.0;
 
     // 4. Loss probability = fraction of simulations that ended below
     //    the starting price
     int lossSims = 0;
     for (double p : finalPrices)
-        if (p < initPrice) lossSims++;
+        if (p < initPrice)
+            lossSims++;
 
     double lossProb = static_cast<double>(lossSims) / finalPrices.size();
 
@@ -136,69 +125,68 @@ void Simulation::printSummary() const
     std::cout << "║  Start Price     : $" << std::right << std::setw(8)
               << initPrice << "                ║\n";
     std::cout << "║  Avg Final Price : $" << std::right << std::setw(8)
-              << avgFinal  << "                ║\n";
+              << avgFinal << "                ║\n";
     std::cout << "║  Worst Final     : $" << std::right << std::setw(8)
               << worstPrice << "                ║\n";
     std::cout << "║  Best Final      : $" << std::right << std::setw(8)
-              << bestPrice  << "                ║\n";
+              << bestPrice << "                ║\n";
     std::cout << "╠══════════════════════════════════════════╣\n";
     std::cout << "║  Avg Return      : " << std::right << std::setw(7)
-              << avgReturn   << "%               ║\n";
+              << avgReturn << "%               ║\n";
     std::cout << "║  Worst Return    : " << std::right << std::setw(7)
               << worstReturn << "%               ║\n";
     std::cout << "║  Best Return     : " << std::right << std::setw(7)
-              << bestReturn  << "%               ║\n";
+              << bestReturn << "%               ║\n";
     std::cout << "║  Loss Probability: " << std::right << std::setw(7)
               << lossProb * 100.0 << "%               ║\n";
     std::cout << "╚══════════════════════════════════════════╝\n";
 
-    // ── Distribution histogram of final prices ────────────────
-    // Bucket the final prices into 10 ranges and print a bar
-    // chart — gives a visual feel for the spread of outcomes.
     std::cout << "\n--- Outcome Distribution (final prices) ---\n";
 
     const int BUCKETS = 10;
     const int BAR_MAX = 30;
 
     double bucketWidth = (bestPrice - worstPrice) / BUCKETS;
-    if (bucketWidth == 0) bucketWidth = 1.0;
+    if (bucketWidth == 0)
+        bucketWidth = 1.0;
 
     std::vector<int> counts(BUCKETS, 0);
-    for (double p : finalPrices) {
+    for (double p : finalPrices)
+    {
         int b = static_cast<int>((p - worstPrice) / bucketWidth);
-        if (b >= BUCKETS) b = BUCKETS - 1;   // clamp the max
+        if (b >= BUCKETS)
+            b = BUCKETS - 1; // clamp the max
         counts[b]++;
     }
 
     int maxCount = *std::max_element(counts.begin(), counts.end());
 
-    for (int b = 0; b < BUCKETS; b++) {
+    for (int b = 0; b < BUCKETS; b++)
+    {
         double lo = worstPrice + b * bucketWidth;
         double hi = lo + bucketWidth;
-        int    barLen = (maxCount > 0)
-                        ? (counts[b] * BAR_MAX / maxCount)
-                        : 0;
+        int barLen = (maxCount > 0)
+                         ? (counts[b] * BAR_MAX / maxCount)
+                         : 0;
 
         std::cout << "$" << std::setw(7) << lo
                   << " - $" << std::setw(7) << hi
                   << " | ";
-        for (int x = 0; x < barLen; x++) std::cout << '#';
+        for (int x = 0; x < barLen; x++)
+            std::cout << '#';
         std::cout << " (" << counts[b] << ")\n";
     }
 }
 
-// ------------------------------------------------------------------
-// Accessors
-// ------------------------------------------------------------------
-const std::vector<double>& Simulation::getFinalPrices() const
+const std::vector<double> &Simulation::getFinalPrices() const
 {
     return finalPrices;
 }
 
-const std::vector<std::vector<double>>& Simulation::getAllPaths() const
+const std::vector<std::vector<double>> &Simulation::getAllPaths() const
 {
     return allPaths;
 }
 
 int Simulation::getNumSimulations() const { return numSimulations; }
-int Simulation::getNumDays()        const { return numDays; }
+int Simulation::getNumDays() const { return numDays; }

@@ -1,60 +1,62 @@
 #include "../Headers/portfolio.h"
-#include<iostream>
-#include<iomanip>
-#include<sstream>
-#include<numeric>
-#include<algorithm>
-#include<cmath>
-#include<stdexcept>
-
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <numeric>
+#include <algorithm>
+#include <cmath>
+#include <stdexcept>
 
 // Constructor for portfolio class
 
-
 Portfolio::Portfolio(std::string name, int numSimulations, int numDays)
     : name(name),
-    numSimulations(numSimulations),
-    numDays(numDays),
-    metrics{},
-    simulated(false)
+      numSimulations(numSimulations),
+      numDays(numDays),
+      metrics{},
+      simulated(false)
 {
     portfolioReturns.reserve(numSimulations);
 }
 
-
-void Portfolio::addStock(const std::string& sName, double initialPrice, double vol, double weight) {
-    StockEntry entry {Stock(sName, initialPrice, vol), weight};  // Forming Structure
-    entries.push_back(entry); // pushing each structure to the vector
+void Portfolio::addStock(const std::string &sName, double initialPrice, double vol, double weight)
+{
+    StockEntry entry{Stock(sName, initialPrice, vol), weight}; // Forming Structure
+    entries.push_back(entry);                                  // pushing each structure to the vector
 }
-
 
 // Validate the weights
 
-void Portfolio::validateWeights() const {
+void Portfolio::validateWeights() const
+{
     double total = 0;
-    for (const auto& e: entries) {
+    for (const auto &e : entries)
+    {
         total += e.weight;
     }
 
-    if ( std::abs(total - 1.0) > 0.01) {
+    if (std::abs(total - 1.0) > 0.01)
+    {
         std::cout << "[WARNING] Weights sum to: " << std::fixed << std::setprecision(4) << total << "[Expected: 1.0]. The result may be misleading.\n";
     }
 }
 
-
 // Blended Return = Summation ( Stock Return * Weight )
 
-double Portfolio::blendReturns(const std::vector<double>& simReturns) const {
+double Portfolio::blendReturns(const std::vector<double> &simReturns) const
+{
     double blended = 0;
-    for (size_t i = 0; i < entries.size(); i++ ) {
+    for (size_t i = 0; i < entries.size(); i++)
+    {
         blended = simReturns[i] * entries[i].weight;
     }
     return blended;
 }
 
-
-void Portfolio::simulatePortfolio() {
-    if (entries.empty()) {
+void Portfolio::simulatePortfolio()
+{
+    if (entries.empty())
+    {
         std::cerr << "No stocks added.\n";
         return;
     }
@@ -67,14 +69,20 @@ void Portfolio::simulatePortfolio() {
     std::cout << "SImulating Portfolio \"" << name << "\" (" << entries.size() << " stocks, " << numSimulations << " runs)";
     std::cout.flush();
 
-    for (int run = 0; run < numSimulations; run++ ) {
+    for (int run = 0; run < numSimulations; run++)
+    {
 
-        if ( run % 100 == 0 ) { std::cout << "."; std::cout.flush();}
+        if (run % 100 == 0)
+        {
+            std::cout << ".";
+            std::cout.flush();
+        }
 
         std::vector<double> runReturns;
         runReturns.reserve(entries.size());
 
-        for (auto& entry: entries) {
+        for (auto &entry : entries)
+        {
             std::vector<double> path = entry.stock.generatePricePath(numDays);
             double initP = entry.stock.getInitialPrice();
             double finalP = path.back();
@@ -88,22 +96,24 @@ void Portfolio::simulatePortfolio() {
 
     std::cout << "Finished!\n";
 
-
     // Expected Return
     double sumR = std::accumulate(portfolioReturns.begin(), portfolioReturns.end(), 0);
     metrics.expectedReturn = sumR / portfolioReturns.size();
 
     // Volatility
     double sumSq = 0;
-    for (double r: portfolioReturns) {
-        sumSq += ( r - metrics.expectedReturn) * ( r - metrics.expectedReturn);
+    for (double r : portfolioReturns)
+    {
+        sumSq += (r - metrics.expectedReturn) * (r - metrics.expectedReturn);
     }
     metrics.volatility = std::sqrt(sumSq / portfolioReturns.size());
 
-    //Loss Probability
+    // Loss Probability
     int lossCount = 0;
-    for (double r : portfolioReturns) {
-        if ( r < 0 ) lossCount++;
+    for (double r : portfolioReturns)
+    {
+        if (r < 0)
+            lossCount++;
     }
     metrics.lossProbability = static_cast<double>(lossCount) / portfolioReturns.size();
 
@@ -114,17 +124,19 @@ void Portfolio::simulatePortfolio() {
     // Maximum Drawdown
     double peak = 0, worstDD = 0;
     double cumulative = 0;
-    for (double r : portfolioReturns) {
+    for (double r : portfolioReturns)
+    {
         cumulative += r / portfolioReturns.size(); // mean
-        if (cumulative > peak) peak = cumulative;
+        if (cumulative > peak)
+            peak = cumulative;
         double dd = (peak > 0) ? (cumulative - peak) / peak : 0;
-        if ( dd < worstDD ) worstDD = dd;
+        if (dd < worstDD)
+            worstDD = dd;
     }
     metrics.maxDrawdown = metrics.worstCase;
     metrics.avgFinalPrice = 1 + metrics.expectedReturn;
-    
+
     simulated = true;
-    
 }
 
 // ------------------------------------------------------------------
@@ -133,10 +145,11 @@ void Portfolio::simulatePortfolio() {
 void Portfolio::printHoldings() const
 {
     std::cout << "\n--- CURRENT PORTFOLIO RAW HOLDINGS ---\n";
-    for (const auto& e : entries) {
-        std::cout << "Asset: " << e.stock.getName() 
-                  << " | Price: " << e.stock.getInitialPrice() 
-                  << " | Volatility: " << e.stock.getVolatility() 
+    for (const auto &e : entries)
+    {
+        std::cout << "Asset: " << e.stock.getName()
+                  << " | Price: " << e.stock.getInitialPrice()
+                  << " | Volatility: " << e.stock.getVolatility()
                   << " | Weight: " << e.weight << "\n";
     }
     std::cout << "--------------------------------------\n";
@@ -147,7 +160,8 @@ void Portfolio::printHoldings() const
 // ------------------------------------------------------------------
 void Portfolio::printReport() const
 {
-    if (!simulated) {
+    if (!simulated)
+    {
         std::cout << "Error: Run simulatePortfolio first.\n";
         return;
     }
@@ -165,7 +179,7 @@ void Portfolio::printReport() const
 }
 
 // Simple Accessor Getters to keep compiler happy
-const std::vector<double>& Portfolio::getPortfolioReturns() const { return portfolioReturns; }
+const std::vector<double> &Portfolio::getPortfolioReturns() const { return portfolioReturns; }
 RiskMetrics Portfolio::getMetrics() const { return metrics; }
 std::string Portfolio::getName() const { return name; }
 int Portfolio::getStockCount() const { return entries.size(); }

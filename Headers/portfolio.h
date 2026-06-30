@@ -15,48 +15,45 @@
 //                    = 0.04 - 0.0175 + 0.02
 //                    = 0.0425 [Equivalent to (+4.25%)]
 
-
 #include "stock.h"
 #include "analysis.h"
 #include <vector>
 #include <string>
 
 // Using structure to pair each stock data to their individual weights
-struct StockEntry {
-    Stock  stock;    // Stock object (name, price, volatility)
-    double weight;   // stock weight
+struct StockEntry
+{
+    Stock stock;   // Stock object (name, price, volatility)
+    double weight; // stock weight
 };
 
-
-
-class Portfolio {
+class Portfolio
+{
 private:
-    std::string             name;
-    std::vector<StockEntry> entries;       // all stocks and their weights
-    int                     numSimulations;
-    int                     numDays;
-
+    std::string name;
+    std::vector<StockEntry> entries; // all stocks and their weights
+    int numSimulations;
+    int numDays;
 
     // (Combined Portfolio Returns)
     std::vector<double> portfolioReturns;
 
     // Risk Metrics
     RiskMetrics metrics;
-    bool        simulated; // We'll check if we have done Monte Carlo simulation for combined portfolio
+    bool simulated; // We'll check if we have done Monte Carlo simulation for combined portfolio
 
-
-    void  validateWeights()   const;   // we will simply warn the user if the sum of weights is not equal to 1 (100%)
-    double blendReturns(const std::vector<double>& simReturns) const;
+    void validateWeights() const; // we will simply warn the user if the sum of weights is not equal to 1 (100%)
+    double blendReturns(const std::vector<double> &simReturns) const;
 
 public:
     // Constructor
     Portfolio(std::string name,
               int numSimulations = 1000,
-              int numDays        = 30);
+              int numDays = 30);
 
     // Build the portfolio
     // Add a stock with a given weight
-    void addStock(const std::string& name,
+    void addStock(const std::string &name,
                   double initialPrice,
                   double volatility,
                   double weight);
@@ -65,14 +62,13 @@ public:
     // Simulates every stock, blends returns, computes metrics
     void simulatePortfolio();
 
+    const std::vector<double> &getPortfolioReturns() const;
+    RiskMetrics getMetrics() const;
+    std::string getName() const;
+    int getStockCount() const;
 
-    const std::vector<double>& getPortfolioReturns() const;
-    RiskMetrics                getMetrics()          const;
-    std::string                getName()             const;
-    int                        getStockCount()       const;
-
-    void printHoldings()  const;   // show stocks and weights
-    void printReport()    const;   // full risk report
+    void printHoldings() const; // show stocks and weights
+    void printReport() const;   // full risk report
 };
 
 #endif
