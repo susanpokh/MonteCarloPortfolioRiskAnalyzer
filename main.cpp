@@ -7,7 +7,7 @@
 
 int main()
 {
-    // Seed random generation for realistic mock simulation paths
+    // see random number based on computer time calendar
     std::srand(std::time(0));
 
     // Create a portfolio targeting a 1000 runs, 30 days monte carlo simulation
