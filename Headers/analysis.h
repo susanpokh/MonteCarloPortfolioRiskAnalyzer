@@ -1,5 +1,5 @@
-#ifndef ANALYSIS_H
-#define ANALYSIS_H
+#ifndef ANALYZER_H
+#define ANALYZER_H
 
 /*
 METRICS
