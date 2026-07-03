@@ -61,7 +61,6 @@ public:
 
     // get all risk metrics together
     RiskMetrics getMetrics() const;
-
     void printReport() const;
 };
 
