@@ -31,10 +31,10 @@ struct RiskMetrics {
 class Analyzer {
 private:
     const Simulation& sim;
-    double            initPrice;
+    double initPrice;
 
     RiskMetrics metrics;
-    bool        computed; 
+    bool computed; 
 
     double computeExpectedReturn()  const;
     double computeVolatility()      const;
