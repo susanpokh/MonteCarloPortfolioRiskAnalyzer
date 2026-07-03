@@ -22,23 +22,15 @@ Analyzer::Analyzer(const Simulation& sim)
       computed(false)
 {}
 
-// ==================================================================
 //  PRIVATE HELPERS — each one calculates one metric
-// ==================================================================
 
-// ------------------------------------------------------------------
-// computeExpectedReturn()
-// ------------------------------------------------------------------
-// FORMULA:
-//   return_i      = (finalPrice_i - initPrice) / initPrice
-//   expectedReturn = average of all return_i values
-//
-// Example with 3 sims:
-//   run1: $150 → $163  return = +0.087
-//   run2: $150 → $141  return = -0.060
-//   run3: $150 → $155  return = +0.033
-//   expected = (0.087 - 0.060 + 0.033) / 3 = +0.020  (+2%)
-// ------------------------------------------------------------------
+/*  
+    computeExpectedReturn()
+    FORMULA:
+    return_i = (finalPrice_i - initPrice) / initPrice
+    expectedReturn = average of all return_i values 
+*/
+
 double Analyzer::computeExpectedReturn() const
 {
     const auto& fp = sim.getFinalPrices();
@@ -50,33 +42,21 @@ double Analyzer::computeExpectedReturn() const
     return sumReturns / fp.size();
 }
 
-// ------------------------------------------------------------------
-// computeVolatility()
-// ------------------------------------------------------------------
-// FORMULA:  standard deviation of all per-simulation returns
-//
-// Standard deviation measures SPREAD — how far outcomes stray
-// from the average.  High std dev = high risk (wide range of
-// possible outcomes).  Low std dev = outcomes cluster tightly.
-//
-// Steps:
-//   1. Compute every return_i
-//   2. Compute mean return (= expectedReturn)
-//   3. For each return_i, square the difference from the mean
-//   4. Average those squares  →  variance
-//   5. Take square root       →  standard deviation
-//
-// Example: returns = [-0.06, +0.02, +0.09]
-//   mean     = 0.0167
-//   diffs²   = (0.0767)², (0.0033)², (0.0733)²
-//   variance = average of diffs² = 0.00497
-//   std dev  = √0.00497 ≈ 0.0705
-// ------------------------------------------------------------------
+/* 
+    computeVolatility()
+    FORMULA:  standard deviation of all per-simulation returns
+    Steps:
+    1. Compute every return_i
+    2. Compute mean return (= expectedReturn)
+    3. For each return_i, square the difference from the mean
+    4. Average those squares
+    5. Take square root
+*/
+
 double Analyzer::computeVolatility() const
 {
     const auto& fp = sim.getFinalPrices();
 
-    // Step 1+2: compute all returns and their mean
     std::vector<double> returns;
     returns.reserve(fp.size());
     double sumR = 0.0;
@@ -87,14 +67,12 @@ double Analyzer::computeVolatility() const
     }
     double meanR = sumR / returns.size();
 
-    // Step 3+4: variance
     double sumSq = 0.0;
     for (double r : returns)
         sumSq += (r - meanR) * (r - meanR);
 
     double variance = sumSq / returns.size();
 
-    // Step 5: std dev
     return std::sqrt(variance);
 }
 
