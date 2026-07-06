@@ -32,22 +32,22 @@ int main()
 
 
     // 1. Teammate's module: define the stock (price, drift, volatility...)
-    Stock stock(/* symbol, initial price, params */);
+    // Stock stock(/* symbol, initial price, params */);
 
     // 2. Teammate's module: run the Monte Carlo simulation
-    Simulation sim(/* stock, numDays, numSimulations */);
-    sim.runMonteCarlo();
+    // Simulation sim(/* stock, numDays, numSimulations */);
+    // sim.runMonteCarlo();
 
     // 3. MY module: analyze the raw paths into risk metrics
-    Analyzer analyzer(sim);   // must construct AFTER runMonteCarlo(),
+    // Analyzer analyzer(sim);   // must construct AFTER runMonteCarlo(),
                               // because initPrice is read in the constructor
-    analyzer.compute();
-    analyzer.printReport();
+    // analyzer.compute();
+    // analyzer.printReport();
 
     // 4. Teammate's module: feed metrics to the recommendation engine
-    RiskMetrics m = analyzer.getMetrics();
-    Recommendation rec(/* m or individual fields */);
-    rec.generate();
+    // RiskMetrics m = analyzer.getMetrics();
+    // Recommendation rec(/* m or individual fields */);
+    // rec.generate();
 
     return 0;
 }
