@@ -182,7 +182,7 @@ void Portfolio::printReport() const
     std::cout << "-------------------------------------------\n";
 }
 
-// Simple Accessor Getters to keep compiler happy
+
 const std::vector<double> &Portfolio::getPortfolioReturns() const { return portfolioReturns; }
 RiskMetrics Portfolio::getMetrics() const { return metrics; }
 std::string Portfolio::getName() const { return name; }
