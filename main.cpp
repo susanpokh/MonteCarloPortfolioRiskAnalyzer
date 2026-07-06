@@ -1,9 +1,16 @@
 // main.cpp mock file
 
+#include "Headers/stock.h"
+#include "Headers/simulation.h"
+#include "Headers/analyzer.h"
+#include "Headers/recommendation.h"
 #include "Headers/portfolio.h"
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+
+
 
 int main()
 {
