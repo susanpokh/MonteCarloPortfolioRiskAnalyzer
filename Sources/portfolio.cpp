@@ -1,11 +1,9 @@
 #include "../Headers/portfolio.h"
 #include <iostream>
 #include <iomanip>
-#include <sstream>
 #include <numeric>
 #include <algorithm>
 #include <cmath>
-#include <stdexcept>
 
 // Constructor for portfolio class
 
