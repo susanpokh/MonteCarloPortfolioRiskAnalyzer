@@ -1,6 +1,6 @@
 // analyzer.cpp — Implementation of the Analyzer class
 
-#include "analyzer.h"
+#include "../Headers/analysis.h"
 
 #include <iostream>
 #include <iomanip>
@@ -240,9 +240,7 @@ void Analyzer::printReport() const
 
     std::cout << "Risk Level: " << riskLabel << "\n";
     std::cout << "==============================================\n";
-}
-    // ── ML Features Preview ───────────────────────────────────
-    // These are exactly the 4 numbers we'll send to the Python
+
 
     std::cout << "\n--- ML Input Features (for API in Step 12) ---\n";
     std::cout << std::fixed << std::setprecision(4);
@@ -250,4 +248,4 @@ void Analyzer::printReport() const
     std::cout << "  volatility      : " << metrics.volatility      << "\n";
     std::cout << "  loss_prob       : " << metrics.lossProbability  << "\n";
     std::cout << "  drawdown        : " << metrics.maxDrawdown      << "\n";
-}
+};
