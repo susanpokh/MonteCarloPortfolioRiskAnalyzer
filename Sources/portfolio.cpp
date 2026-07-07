@@ -6,39 +6,42 @@
 #include <cmath>
 
 
-// Constructor for portfolio class
+// Constructor of Portfolio class
 
 Portfolio::Portfolio(std::string name, int numSimulations, int numDays)
-    : name(name),
-      numSimulations(numSimulations),
-      numDays(numDays),
-      metrics{},
-      simulated(false)
+    : name(name), // Name of individual portfolio. Can be anything
+      numSimulations(numSimulations), // Number of simulations to do
+      numDays(numDays), // Number of days the simulation will run
+      metrics{}, // Empty structure member, with empty values at first. After finding the riskMetrics we are going to assign the risk metrics
+      simulated(false) // Check if the simulation is done or not, (As a default it is set to false since no any simulations is done yet)
 {
-    portfolioReturns.reserve(numSimulations);
+    portfolioReturns.reserve(numSimulations); // if numSimulation runs for n times then we know, portfolioReturns vector will have n elements. So, we allocate the size of the vector in advance which can help prevent resizing overload.
 }
 
-void Portfolio::addStock(const std::string &sName, double initialPrice, double vol, double weight)
+void Portfolio::addStock(const std::string &sName, double initialPrice, double vol, double weight) // We are goig to add a given stock with it's weight (All things are inputted by the user)
 {
-    StockEntry entry{Stock(sName, initialPrice, vol), weight}; // Forming Structure
-    entries.push_back(entry);                                  // pushing each structure to the vector
+    StockEntry entry{Stock(sName, initialPrice, vol), weight}; // Forming Structure StockEntry which consists of one object which is Stock, and the other elment which is weight of the portfolio (Inputted by the user)
+    entries.push_back(entry); // pushing each structure entry to the entries vector
 }
 
-// Validate the weights
+// entries[0] -> Stock(Name, InitialPrice, Volatility), Weight
+// entires[1] -> Stock(Name, InitialPrice, Volatiltiy), Weight and so onnnn
 
-void Portfolio::validateWeights()
+
+void Portfolio::validateWeights() // Here, with this function, we are going to check if the weights inputted by the user add upto 100%. It's because user needs to invest his whole money, and of couse the weights of his investment is always 100%
 {
     double total = 0;
     for (const auto &e : entries)
     {
-        total += e.weight;
+        total += e.weight; // We are taking the weights of each stock and adding them up
     }
 
-    if (std::abs(total - 1.0) > 0.01)
+    if (std::abs(total - 1.0) > 0.01) // Checking if the total weight add upto 100, if not, we will simply deliver a warning message
     {
         std::cout << "[WARNING] Weights sum to: " << std::fixed << std::setprecision(4) << total << "[Expected: 1.0]. The result may be misleading.\n";
     }
 }
+
 
 // Blended Return = Summation ( Stock Return * Weight )
 
