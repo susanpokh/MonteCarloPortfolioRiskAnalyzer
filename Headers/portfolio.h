@@ -42,8 +42,8 @@ private:
     RiskMetrics metrics;
     bool simulated; // We'll check if we have done Monte Carlo simulation for combined portfolio
 
-    void validateWeights() const; // we will simply warn the user if the sum of weights is not equal to 1 (100%)
-    double blendReturns(const std::vector<double> &simReturns) const;
+    void validateWeights(); // we will simply warn the user if the sum of weights is not equal to 1 (100%)
+    double blendReturns(const std::vector<double> &simReturns);
 
 public:
     // Constructor
@@ -62,13 +62,13 @@ public:
     // Simulates every stock, blends returns, computes metrics
     void simulatePortfolio();
 
-    const std::vector<double> &getPortfolioReturns() const;
-    RiskMetrics getMetrics() const;
-    std::string getName() const;
-    int getStockCount() const;
+    std::vector<double> getPortfolioReturns();
+    RiskMetrics getMetrics();
+    std::string getName();
+    int getStockCount();
 
-    void printHoldings() const; // show stocks and weights
-    void printReport() const;   // full risk report
+    void printHoldings(); // show stocks and weights
+    void printReport();   // full risk report
 };
 
 #endif

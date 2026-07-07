@@ -26,7 +26,7 @@ void Portfolio::addStock(const std::string &sName, double initialPrice, double v
 
 // Validate the weights
 
-void Portfolio::validateWeights() const
+void Portfolio::validateWeights()
 {
     double total = 0;
     for (const auto &e : entries)
@@ -42,12 +42,12 @@ void Portfolio::validateWeights() const
 
 // Blended Return = Summation ( Stock Return * Weight )
 
-double Portfolio::blendReturns(const std::vector<double> &simReturns) const
+double Portfolio::blendReturns(const std::vector<double> &simReturns)
 {
     double blended = 0;
     for (size_t i = 0; i < entries.size(); i++)
     {
-        blended = simReturns[i] * entries[i].weight;
+        blended += simReturns[i] * entries[i].weight;
     }
     return blended;
 }
@@ -56,7 +56,7 @@ void Portfolio::simulatePortfolio()
 {
     if (entries.empty())
     {
-        std::cerr << "No stocks added.\n";
+        std::cout << "No stocks added.\n";
         return;
     }
 
@@ -66,7 +66,6 @@ void Portfolio::simulatePortfolio()
     portfolioReturns.reserve(numSimulations);
 
     std::cout << "SImulating Portfolio \"" << name << "\" (" << entries.size() << " stocks, " << numSimulations << " runs)";
-    std::cout.flush();
 
     for (int run = 0; run < numSimulations; run++)
     {
@@ -74,7 +73,7 @@ void Portfolio::simulatePortfolio()
         if (run % 100 == 0)
         {
             std::cout << ".";
-            std::cout.flush();
+
         }
 
         std::vector<double> runReturns;
@@ -141,7 +140,7 @@ void Portfolio::simulatePortfolio()
 
 
 
-void Portfolio::printHoldings() const
+void Portfolio::printHoldings()
 {
     std::cout << "\n--- CURRENT PORTFOLIO HOLDINGS ---\n";
     for (const auto &e : entries)
@@ -155,7 +154,7 @@ void Portfolio::printHoldings() const
 }
 
 
-void Portfolio::printReport() const
+void Portfolio::printReport()
 {
     if (!simulated)
     {
@@ -176,7 +175,7 @@ void Portfolio::printReport() const
 }
 
 
-const std::vector<double> &Portfolio::getPortfolioReturns() const { return portfolioReturns; }
-RiskMetrics Portfolio::getMetrics() const { return metrics; }
-std::string Portfolio::getName() const { return name; }
-int Portfolio::getStockCount() const { return entries.size(); }
+std::vector<double> Portfolio::getPortfolioReturns() { return portfolioReturns; }
+RiskMetrics Portfolio::getMetrics() { return metrics; }
+std::string Portfolio::getName() { return name; }
+int Portfolio::getStockCount() { return entries.size(); }
