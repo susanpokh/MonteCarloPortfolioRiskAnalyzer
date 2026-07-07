@@ -167,37 +167,52 @@ double Analyzer::computeAvgFinalPrice() const
 void Analyzer::compute()
 {
     if (sim.getFinalPrices().empty()) {
-        std::cerr << "[Analyzer] No simulation data. "
-                  << "Run Simulation::runMonteCarlo() first.\n";
+        std::cerr << "[Analyzer] No simulation data. " << "Run Simulation::runMonteCarlo() first.\n";
         return;
     }
 
-    metrics.expectedReturn   = computeExpectedReturn();
-    metrics.volatility       = computeVolatility();
-    metrics.lossProbability  = computeLossProbability();
-    metrics.maxDrawdown      = computeMaxDrawdown();
-    metrics.worstCase        = computeWorstCase();
-    metrics.bestCase         = computeBestCase();
-    metrics.avgFinalPrice    = computeAvgFinalPrice();
+    metrics.expectedReturn = computeExpectedReturn();
+    metrics.volatility = computeVolatility();
+    metrics.lossProbability = computeLossProbability();
+    metrics.maxDrawdown = computeMaxDrawdown();
+    metrics.worstCase = computeWorstCase();
+    metrics.bestCase = computeBestCase();
+    metrics.avgFinalPrice = computeAvgFinalPrice();
 
     computed = true;
 }
 
 // Getters
 
-double Analyzer::getExpectedReturn()  const { return metrics.expectedReturn;  }
-double Analyzer::getVolatility()      const { return metrics.volatility;      }
-double Analyzer::getLossProbability() const { return metrics.lossProbability; }
-double Analyzer::getMaxDrawdown()     const { return metrics.maxDrawdown;     }
-double Analyzer::getWorstCase()       const { return metrics.worstCase;       }
-double Analyzer::getBestCase()        const { return metrics.bestCase;        }
-double Analyzer::getAvgFinalPrice()   const { return metrics.avgFinalPrice;   }
+double Analyzer::getExpectedReturn(){ 
+    return metrics.expectedReturn;  
+    }
+double Analyzer::getVolatility(){
+    return metrics.volatility;
+    }
+double Analyzer::getLossProbability(){
+    return metrics.lossProbability;
+    }
+double Analyzer::getMaxDrawdown(){
+    return metrics.maxDrawdown;
+    }
+double Analyzer::getWorstCase(){
+    return metrics.worstCase;
+    }
+double Analyzer::getBestCase(){
+    return metrics.bestCase;
+    }
+double Analyzer::getAvgFinalPrice(){
+    return metrics.avgFinalPrice;
+    }
 
-RiskMetrics Analyzer::getMetrics() const { return metrics; }
+RiskMetrics Analyzer::getMetrics(){
+    return metrics;
+    }
 
 // Print Report
 
-void Analyzer::printReport() const
+void Analyzer::printReport()
 {
     if (!computed) {
         std::cout << "Please call compute() first before printReport().\n";
