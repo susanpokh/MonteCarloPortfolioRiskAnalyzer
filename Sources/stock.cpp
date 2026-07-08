@@ -30,7 +30,7 @@ double Stock::getInitialPrice() const { return initialPrice; }
 double Stock::getCurrentPrice() const { return currentPrice; }
 double Stock::getVolatility() const { return volatility; }
 
-// Dummy implementations for virtual placeholders to satisfy compilation
+// Dummy implementations for virtual placeholders for satisfying compilation
 double Stock::simulate() { return initialPrice; }
 void Stock::reset() {}
 void Stock::printInfo() const {}
