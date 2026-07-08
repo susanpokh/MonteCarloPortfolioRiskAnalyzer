@@ -7,7 +7,6 @@
 #include <numeric>      // std::accumulate
 #include <algorithm>    // std::min_element, std::max_element
 #include <cmath>        // std::sqrt, std::pow
-#include <sstream>      // std::ostringstream
 #include <vector>
 #include <string>
 
@@ -15,9 +14,7 @@
 
 Analyzer::Analyzer(const Simulation& sim)
     : sim(sim),
-      initPrice(sim.getAllPaths().empty()
-                ? 0.0
-                : sim.getAllPaths()[0][0]),   // Day 0 of first path
+      initPrice(sim.getAllPaths().empty() ? 0.0 : sim.getAllPaths()[0][0]),   // Day 0 of first path
       metrics{},
       computed(false)
 {}
