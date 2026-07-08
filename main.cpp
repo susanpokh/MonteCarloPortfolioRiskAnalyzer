@@ -15,7 +15,7 @@ int main()
     {
         // 1. Display Menu Options
         std::cout << "\n=======================================\n";
-        std::cout << "      MAIN MENU (RISK ANALYZER)        \n";
+        std::cout << "      MAIN MENU     \n";
         std::cout << "=======================================\n";
         std::cout << "1. Analyze a Single Stock\n";
         std::cout << "2. Build & Analyze a Portfolio\n";
