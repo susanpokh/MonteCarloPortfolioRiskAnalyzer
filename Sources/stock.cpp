@@ -1,7 +1,7 @@
 // Stock.cpp mock file
 
 
-#include "../Headers/stock.h"
+#include "stock.h"
 #include <cstdlib>
 #include <cmath>
 

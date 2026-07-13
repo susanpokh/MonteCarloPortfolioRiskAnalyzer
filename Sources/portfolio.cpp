@@ -1,4 +1,4 @@
-#include "../Headers/portfolio.h"
+#include "portfolio.h"
 #include <iostream>
 #include <iomanip>
 #include <numeric>
@@ -26,7 +26,6 @@ void Portfolio::addStock(const std::string &sName, double initialPrice, double v
 
 // entries[0] -> Stock(Name, InitialPrice, Volatility), Weight
 // entires[1] -> Stock(Name, InitialPrice, Volatiltiy), Weight and so onnnn
-
 
 void Portfolio::validateWeights() // Here, with this function, we are going to check if the weights inputted by the user add upto 100%. It's because user needs to invest his whole money, and of couse the weights of his investment is always 100%
 {

@@ -1,10 +1,10 @@
 
-g++ -std=c++11 -I./Headers \
-    Sources/portfolio.cpp \
-    Sources/stock.cpp \
-    Sources/simulation.cpp \
-    Sources/analysis.cpp \
-    main.cpp \
+g++ -std=c++11 -I../Headers \
+    ../Sources/portfolio.cpp \
+    ../Sources/stock.cpp \
+    ../Sources/simulation.cpp \
+    ../Sources/analysis.cpp \
+    ../main.cpp \
     -o risk_analyzer_demo
 
     

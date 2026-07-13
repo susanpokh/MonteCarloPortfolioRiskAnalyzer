@@ -1,6 +1,6 @@
 // analyzer.cpp — Implementation of the Analyzer class
 
-#include "../Headers/analysis.h"
+#include "analysis.h"
 
 #include <iostream>
 #include <iomanip>
@@ -181,35 +181,35 @@ void Analyzer::compute()
 
 // Getters
 
-double Analyzer::getExpectedReturn(){ 
+double Analyzer::getExpectedReturn()const { 
     return metrics.expectedReturn;  
     }
-double Analyzer::getVolatility(){
+double Analyzer::getVolatility() const{
     return metrics.volatility;
     }
-double Analyzer::getLossProbability(){
+double Analyzer::getLossProbability() const{
     return metrics.lossProbability;
     }
-double Analyzer::getMaxDrawdown(){
+double Analyzer::getMaxDrawdown() const{
     return metrics.maxDrawdown;
     }
-double Analyzer::getWorstCase(){
+double Analyzer::getWorstCase() const{
     return metrics.worstCase;
     }
-double Analyzer::getBestCase(){
+double Analyzer::getBestCase() const{
     return metrics.bestCase;
     }
-double Analyzer::getAvgFinalPrice(){
+double Analyzer::getAvgFinalPrice() const{
     return metrics.avgFinalPrice;
     }
 
-RiskMetrics Analyzer::getMetrics(){
+RiskMetrics Analyzer::getMetrics() const{
     return metrics;
     }
 
 // Print Report
 
-void Analyzer::printReport()
+void Analyzer::printReport() const
 {
     if (!computed) {
         std::cout << "Please call compute() first before printReport().\n";
