@@ -4,6 +4,7 @@ g++ -std=c++11 -I./Headers \
     ./Sources/stock.cpp \
     ./Sources/simulation.cpp \
     ./Sources/analysis.cpp \
+    ./Sources/recommendation.cpp \
     ./main.cpp \
     -o risk_analyzer_demo
 

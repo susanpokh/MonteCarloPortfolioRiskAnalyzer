@@ -6,6 +6,7 @@
 #include "simulation.h"
 #include "analysis.h"
 #include "portfolio.h"
+#include "recommendation.h"
 
 int main()
 {
@@ -29,7 +30,7 @@ int main()
 
         switch (choice)
         {
-            case 1: // 1. ANALYZE A SINGLE STOCK
+            case 1: // 1. ANALYZE A SINGLE STOCK + STRATEGIC ADVICE
             {
                 std::cout << "\n--- SINGLE STOCK ANALYSIS ---\n";
                 
@@ -44,7 +45,7 @@ int main()
                 std::cout << "Enter daily volatility % (e.g. 2 for 2%): ";
                 std::cin >> vol;
                 
-                vol = vol / 100.0; // user inputted vol as percentage, and it is converted to decimal value for easier calculation
+                vol = vol / 100.0; // convert percentage to decimal value
 
                 std::cout << "Enter number of simulations (e.g. 1000): ";
                 std::cin >> sims;
@@ -60,8 +61,7 @@ int main()
                 analyzer.compute();
                 RiskMetrics m = analyzer.getMetrics();
 
-
-                // Print the result
+                // Print the raw mathematical results
                 std::cout << "\n--- RAW RISK RESULTS FOR " << ticker << " ---\n";
                 std::cout << "Expected Return : " << m.expectedReturn << "\n";
                 std::cout << "Volatility      : " << m.volatility << "\n";
@@ -69,10 +69,14 @@ int main()
                 std::cout << "Worst Case      : " << m.worstCase << "\n";
                 std::cout << "Best Case       : " << m.bestCase << "\n";
                 std::cout << "--------------------------------------\n";
+
+                Recommendation recEngine;
+                AIResult advice = recEngine.analyze(m);
+                recEngine.printFullReport(m, advice);
                 break;
             }
 
-            case 2: // 1. BUILD & ANALYZE A PORTFOLIO
+            case 2: // 2. BUILD & ANALYZE A PORTFOLIO
             {
                 std::cout << "\n--- PORTFOLIO ANALYSIS ---\n";
                 
@@ -105,16 +109,13 @@ int main()
                     std::cout << "  Portfolio weight % (e.g. 40 for 40%): ";
                     std::cin >> weight;
 
-
                     vol = vol / 100.0;
                     weight = weight / 100.0;
 
                     port.addStock(ticker, price, vol, weight);
                 }
 
-
                 port.simulatePortfolio();
-                
                 port.printHoldings();
                 port.printReport();
                 break;
@@ -157,7 +158,6 @@ int main()
                 Analyzer anzB(simB);
                 anzB.compute();
                 RiskMetrics mB = anzB.getMetrics();
-
 
                 // displaying output
                 std::cout << "\n===============================================\n";
