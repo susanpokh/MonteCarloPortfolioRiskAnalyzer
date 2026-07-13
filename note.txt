@@ -1,9 +1,0 @@
-Task Division
-
-Aaditya Dahal (stock.h/stock.cpp)
-Prashish Phunyal (simulation.h/simulation.cpp)
-Manav Sharma Poudel (analysis.h/analysis.cpp)
-Susan Pokharel (portfolio.h/portfolio.cpp)
-Aakankshya Shrestha (recommendation.h/recommendation.cpp)
-
-portfolio part was completed and thus to show it's implementation and output, basic mock code was generated from AI for stock.cpp because portfolio.cpp uses components from stock.cpp (Later aaditya will handle his stock part) and we'll make changes to main.cpp files after all of us have completed our task
