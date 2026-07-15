@@ -12,7 +12,7 @@
 
 // Constructor
 
-Analyzer::Analyzer(const Simulation& sim)
+Analyzer::Analyzer(const Simulation& sim) const
     : sim(sim),
       initPrice(sim.getAllPaths().empty() ? 0.0 : sim.getAllPaths()[0][0]),   // Day 0 of first path
       metrics{},

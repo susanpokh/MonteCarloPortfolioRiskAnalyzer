@@ -16,7 +16,6 @@ METRICS
 #include <vector>
 
 // Structure to store all the risk metrics
-
 struct RiskMetrics {
     double expectedReturn;   
     double volatility;        
@@ -26,16 +25,12 @@ struct RiskMetrics {
     double bestCase;         
     double avgFinalPrice;     
 };
-
-
 class Analyzer {
 private:
     const Simulation& sim;
     double initPrice;
-
     RiskMetrics metrics;
     bool computed; 
-
     double computeExpectedReturn()  const;
     double computeVolatility()      const;
     double computeLossProbability() const;
@@ -43,11 +38,8 @@ private:
     double computeWorstCase()       const;
     double computeBestCase()        const;
     double computeAvgFinalPrice()   const;
-
 public:
-
     explicit Analyzer(const Simulation& sim);
-
     void compute();
 
     // getter methods
