@@ -12,7 +12,7 @@ std::string Recommendation::classifyRiskLevel(const RiskMetrics &m) const {
     }
 }
 
-// Compute simple ratio-based voting confidence 
+
 double Recommendation::computeConfidence(int buyVotes, int sellVotes, int totalVotes) const {
     if (totalVotes == 0) return 0.0;
     
