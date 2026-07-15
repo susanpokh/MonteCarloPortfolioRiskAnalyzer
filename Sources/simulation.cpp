@@ -32,12 +32,11 @@ Simulation::Simulation(Stock &stock, int numSimulations, int numDays)
 //
 // Each value is where the stock *could* end up after 30 days.
 // Some are up, some are down — the spread of outcomes is the risk.
-//
-// WHY is this Monte Carlo?
-//   Monte Carlo = using RANDOM SAMPLING to estimate an outcome.
-//   We can't know the future price, so we simulate 1000 possible
-//   futures and study the distribution of results.
 // ------------------------------------------------------------------
+
+
+
+
 void Simulation::runMonteCarlo()
 {
     // Clear any previous results so runMonteCarlo() can be called
